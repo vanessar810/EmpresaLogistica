@@ -1,17 +1,23 @@
 from sqlalchemy.orm import Session
 from app.repository.cliente_repository import ClienteRepository
 from app.entity.cliente import Cliente
-from app.exception.http_exceptions import invalid_data_error, internal_server_error
+from app.exception.http_exceptions import cliente_not_found, internal_server_error, user_already_exists
 from fastapi import HTTPException
+from app.entity.user import User
 
 class ClienteService:
     @staticmethod
-    def create_cliente(db: Session, nombre: str, email: str, telefono: str | None):
+    def create_cliente(db: Session, user_id: int, nombre: str, telefono: str):
         try:
-            if not nombre or not email:
-                raise invalid_data_error("El nombre y el correo son obligatorios.")
-            
-            cliente = Cliente(nombre=nombre, email=email, telefono=telefono)
+            existing = db.query(Cliente).filter_by(user_id=user_id).first()
+            if existing:
+                raise user_already_exists
+
+            user = db.query(User).filter_by(id=user_id).first()
+            if not user:
+                    raise cliente_not_found
+    
+            cliente = Cliente(nombre=nombre, telefono=telefono, user_id=user_id, email=user.email)
             return ClienteRepository.create(db, cliente)
 
         except HTTPException as e:
@@ -25,7 +31,6 @@ class ClienteService:
         try:
             cliente = ClienteRepository.get_by_id(db, cliente_id)
             if not cliente:
-                from app.exception.http_exceptions import cliente_not_found
                 raise cliente_not_found()
             return cliente
         except Exception as e:

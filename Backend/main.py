@@ -1,16 +1,25 @@
 from fastapi import FastAPI
 from fastapi.requests import Request
 from fastapi import Request
+from fastapi.responses import JSONResponse 
 from fastapi.middleware.cors import CORSMiddleware
 from app.auth.auth_controller import router as auth_router
-from app.configuration.database import Base, engine
-from app.controller import cliente_controller, envio_controller
+from app.configuration.database import Base, engine, SessionLocal
+from app.controller import cliente_controller, envio_controller, puerto_controller, producto_controller, bodega_controller, prep_envio_controller
 from app.openApi.docs_config import custom_openapi
-from fastapi.responses import JSONResponse
+from app.repository.data_seed import seed_data
+from contextlib import asynccontextmanager
 Base.metadata.create_all(bind=engine)
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    db = SessionLocal()
+    seed_data(db)
+    db.close()
+    yield
+
 app = FastAPI(title="API Logística", description="API RESTful con JWT, CRUD, filtros y validaciones.",
-    version="1.0.0")
+    version="1.0.0", lifespan=lifespan)
 
 # CORS 
 origins = [
@@ -19,7 +28,7 @@ origins = [
 ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -27,8 +36,12 @@ app.add_middleware(
 
 # Routers
 app.include_router(auth_router)
-app.include_router(cliente_controller.router,  prefix="/clientes")
-app.include_router(envio_controller.router, prefix="/envios")
+app.include_router(cliente_controller.router)
+app.include_router(envio_controller.router)
+app.include_router(producto_controller.router)
+app.include_router(puerto_controller.router)
+app.include_router(bodega_controller.router)
+app.include_router(prep_envio_controller.router)
 
 @app.get("/", tags=["root"])
 def root():
@@ -43,3 +56,5 @@ async def global_exception_handler(request: Request, exc: Exception):
         status_code=500,
         content={"detail": "Error interno del servidor. Intente más tarde."},
     )
+
+

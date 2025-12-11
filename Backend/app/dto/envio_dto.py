@@ -22,3 +22,6 @@ class EnvioMaritimoDTO(BaseModel):
     numero_flota: str
     numero_guia: str
     cliente_id: int
+
+class EnvioConfirmarReq(BaseModel):
+    id: int

@@ -13,19 +13,21 @@ class AuthService:
     @staticmethod
     def register(user_data: UserCreate, db: Session):
         try:
-            existing_user = UserRepository.find_by_username(db, user_data.username)
+            existing_user = UserRepository.find_by_email(db, user_data.email)
             if existing_user:
                 raise user_already_exists()
 
             hashed_password = pwd_context.hash(user_data.password)
             user = User(
-                username=user_data.username,
                 email=user_data.email,
-                hashed_password=hashed_password
+                hashed_password=hashed_password,
+                role=user_data.role
             )
             UserRepository.save(db, user)
-            access_token = create_access_token(data={"sub": user.username})
-            return Token(access_token=access_token)
+            access_token = create_access_token(data={"sub": user.email})
+            has_client = bool(user.cliente)
+            return Token(access_token=access_token, hasClient=has_client,
+                role=user.role)
 
         except HTTPException:
             raise
@@ -36,12 +38,15 @@ class AuthService:
     @staticmethod
     def login(credentials: UserLogin, db: Session):
         try:
-            user = UserRepository.find_by_username(db, credentials.username)
+            user = UserRepository.find_by_email(db, credentials.email)
             if not user or not pwd_context.verify(credentials.password, user.hashed_password):
                 raise invalid_credentials()
 
-            access_token = create_access_token(data={"sub": user.username})
-            return Token(access_token=access_token)
+            access_token = create_access_token(data={"sub": user.email})
+            has_client = bool(user.cliente)
+            cliente_id = user.cliente.id if user.cliente else None
+            return Token(access_token=access_token, hasClient=has_client,
+                role=user.role, id=cliente_id)
 
         except HTTPException:
             raise

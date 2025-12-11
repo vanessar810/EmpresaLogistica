@@ -4,12 +4,20 @@ from app.configuration.database import get_db
 from app.dto.cliente_dto import ClienteCreateDTO, ClienteUpdateDTO, ClienteDTO
 from app.service.cliente_service import ClienteService
 from app.auth.security import get_current_user
+from app.entity.user import User
+from app.dto.cliente_dto import ClienteDTO
 
 router = APIRouter(prefix="/clientes", tags=["clientes"])
 
 @router.post("/", response_model=ClienteDTO)
-def create_cliente(cliente: ClienteCreateDTO, db: Session = Depends(get_db)):
-    return ClienteService.create_cliente(db, cliente.nombre, cliente.email, cliente.telefono)
+def create_cliente(cliente: ClienteCreateDTO, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    nuevo_cliente = ClienteService.create_cliente(
+        db,
+        current_user.id,
+        cliente.nombre,
+        cliente.telefono)
+    db.refresh(nuevo_cliente)
+    return ClienteDTO(id=nuevo_cliente.id, nombre=nuevo_cliente.nombre, telefono=nuevo_cliente.telefono, email =nuevo_cliente.email)
 
 @router.get("/{cliente_id}",dependencies=[Depends(get_current_user)], response_model=ClienteDTO)
 def get_cliente(cliente_id: int, db: Session = Depends(get_db)):

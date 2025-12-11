@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.configuration.database import get_db
-from app.dto.envio_dto import EnvioTerrestreDTO, EnvioMaritimoDTO
+from app.dto.envio_dto import EnvioTerrestreDTO, EnvioMaritimoDTO, EnvioConfirmarReq
 from app.service.envio_service import EnvioService
 
 router = APIRouter(prefix="/envios", tags=["envios"])
@@ -51,3 +51,7 @@ def delete_envio_maritimo(envio_id: int, db: Session = Depends(get_db)):
     envio = EnvioService.get_envio_maritimo(db, envio_id)
     EnvioService.delete_envio(db, envio)
     return {"detail": "Envio marítimo eliminado"}
+
+@router.post("/confirmar")
+def confirmar(req: EnvioConfirmarReq, db: Session = Depends(get_db)):
+    return EnvioService.confirmar_envio(req, db)

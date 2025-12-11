@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from app.configuration.database import Base
 
 class Cliente(Base):
@@ -7,3 +8,6 @@ class Cliente(Base):
     nombre = Column(String(100), nullable=False)
     email = Column(String(100), unique=True, nullable=False)
     telefono = Column(String(20))
+    user_id = Column(Integer, ForeignKey("users.id")) 
+
+    user = relationship("User", back_populates="cliente")

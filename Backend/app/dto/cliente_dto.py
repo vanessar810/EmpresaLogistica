@@ -2,7 +2,6 @@ from pydantic import BaseModel, EmailStr
 
 class ClienteCreateDTO(BaseModel):
     nombre: str
-    email: EmailStr
     telefono: str | None
 
 class ClienteUpdateDTO(BaseModel):

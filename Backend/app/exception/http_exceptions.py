@@ -8,7 +8,6 @@ def cliente_not_found():
         detail="Cliente no encontrado."
     )
 
-
 # Envío terrestre no encontrado
 def envio_terrestre_not_found():
     return HTTPException(
@@ -64,4 +63,11 @@ def invalid_credentials():
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Credenciales incorrectas. Verifica usuario o contraseña.",
         headers={"WWW-Authenticate": "Bearer"},
+    )
+
+#  Borrador no encontrado
+def draft_not_found():
+    return HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Borrador no encontrado."
     )
