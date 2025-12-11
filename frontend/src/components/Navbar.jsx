@@ -1,9 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
     const { user, logout } = useAuth();
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        logout();
+        navigate("/", { replace: true });
+    };
     return (
         <nav style={{ padding: 10, borderBottom: "1px solid #ccc" }}>
             <Link to="/">Inicio</Link>
@@ -12,7 +17,7 @@ const Navbar = () => {
                 <>
                     <Link to="/dashboard">Panel</Link>
                     {" | "}
-                    <button onClick={logout}>Cerrar sesión</button>
+                    <button onClick={handleLogout}>Cerrar sesión</button>
                 </>
             ) : (
                 <>

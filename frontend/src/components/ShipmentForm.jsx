@@ -1,21 +1,43 @@
 // src/components/ShipmentForm.js
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { getProductos, getBodegas, getPuertos } from "../dataService";
+import api from "../api";
+import ConfirmationModal from "./ConfirmationModal";
 
 function ShipmentForm({ type, clienteId }) {
+    const [productos, setProductos] = useState([]);
+    const [bodegas, setBodegas] = useState([]);
+    const [puertos, setPuertos] = useState([]);
+    const [confirmationData, setConfirmationData] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+
+    //cargar productos, bodega, puertos
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [productoResponse, bodegaResponse, puertosResponse] = await Promise.all([
+                    getProductos(),
+                    getBodegas(),
+                    getPuertos()
+                ]);
+                setProductos(productoResponse.data);
+                console.log(productoResponse.data)
+                setBodegas(bodegaResponse.data);
+                setPuertos(puertosResponse.data);
+            } catch (error) {
+                console.error("Error cargando datos: ", error);
+            }
+        };
+        fetchData();
+    }, []);
+
     // type = "maritimo" o "terrestre"
     const [shipment, setShipment] = useState({
-        tipo_producto: "",
-        cantidad: 1,
-        fecha_registro: "",
-        fecha_entrega: "",
-        puerto_entrega: "",  // si marítimo
-        bodega_entrega: "",  // si terrestre
-        precio_envio: 0,
-        descuento: 0,
-        numero_flota: "",    // marítimo
-        placa: "",           // terrestre
-        numero_guia: "",
+        productoId: "",
+        cantidad: "",
+        fechaRecogida: "",
+        puertoId: "",  // si marítimo
+        bodegaId: "",  // si terrestre
     });
 
     const handleChange = (e) => {
@@ -25,122 +47,101 @@ function ShipmentForm({ type, clienteId }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const payload = { ...shipment,precio_envio: 0, cliente_id: clienteId };
-            const endpoint =
-                type === "maritimo"
-                    ? "http://localhost:5000/api/envios/maritimos"
-                    : "http://localhost:5000/api/envios/terrestres";
-
-            await axios.post(endpoint, payload);
+            const payload = {
+                ...shipment,
+                cantidad: Number(shipment.cantidad),
+                productoId: Number(shipment.productoId),
+                fechaRecogida: new Date(shipment.fechaRecogida).toISOString().split("T")[0],
+                puertoId: shipment.puertoId ? Number(shipment.puertoId) : null,
+                bodegaId: shipment.bodegaId ? Number(shipment.bodegaId) : null,
+                cliente_id: clienteId
+            };
+            console.log("enviando: ", payload)
+            const envioPreparado = await api.post("/preparacion/envio", payload);
+            setConfirmationData(envioPreparado.data)
+            setOpenModal(true)
+            console.log("Envío registrado correctamente ", envioPreparado);
             alert("Envío registrado correctamente");
-            setShipment({
-                tipo_producto: "",
-                cantidad: 1,
-                fecha_registro: "",
-                fecha_entrega: "",
-                puerto_entrega: "",
-                bodega_entrega: "",
-                precio_envio: 0,
-                descuento: 0,
-                numero_flota: "",
-                placa: "",
-                numero_guia: "",
-            });
         } catch (err) {
             console.error(err);
             alert("Error al registrar envío");
+            console.log("Error al registrar envío");
         }
     };
+    const handleConfirm = async () => {
+        try {
+            
+            const endpoint = "/envios/confirmar";
+            console.log("para confirmación del envio: ", confirmationData.id)
+            const response = await api.post(endpoint, {id:confirmationData.id})
+            
+            console.log("envio final: ", response)
+        } catch (error) {
+            console.error("Error confirmando envio:", error);
+        }
+    }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                name="tipo_producto"
-                placeholder="Tipo de producto"
-                value={shipment.tipo_producto}
-                onChange={handleChange}
-                required
-            />
-            <input
-                name="cantidad"
-                type="number"
-                placeholder="Cantidad"
-                value={shipment.cantidad}
-                onChange={handleChange}
-                required
-            />
-            <input
-                name="fecha_registro"
-                type="date"
-                value={shipment.fecha_registro}
-                onChange={handleChange}
-                required
-            />
-            <input
-                name="fecha_entrega"
-                type="date"
-                value={shipment.fecha_entrega}
-                onChange={handleChange}
-                required
-            />
-            {type === "maritimo" ? (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <label>Producto: </label>
+                <select name="productoId" value={shipment.productoId} onChange={handleChange} required>
+                    <option value="">Seleccionar producto</option>
+                    {productos.map(p => (
+                        <option key={p.id} value={p.id}>
+                            {p.nombre}
+                        </option>
+                    ))}
+                </select>
+                <label> Cantidad: </label>
                 <input
-                    name="puerto_entrega"
-                    placeholder="Puerto de entrega"
-                    value={shipment.puerto_entrega}
+                    name="cantidad"
+                    type="number"
+                    placeholder="Cantidad"
+                    value={shipment.cantidad}
                     onChange={handleChange}
                     required
                 />
-            ) : (
+                <label> Fecha de recogida: </label>
                 <input
-                    name="bodega_entrega"
-                    placeholder="Bodega de entrega"
-                    value={shipment.bodega_entrega}
+                    name="fechaRecogida"
+                    type="date"
+                    value={shipment.fechaRecogida}
                     onChange={handleChange}
                     required
                 />
-            )}
-            <input
-                name="precio_envio"
-                type="number"
-                placeholder="Precio envío"
-                value={shipment.precio_envio}
-                onChange={handleChange}
-                required
+                {type === "maritimo" ? (
+                    <select name="puertoId" value={shipment.puertoId} onChange={handleChange} required>
+                        <option value="">Seleccionar puerto</option>
+                        {puertos.map(p => (
+                            <option key={p.id} value={p.id}>
+                                {p.nombre}
+                            </option>
+                        ))}
+                    </select>
+                ) : (
+                    <select name="bodegaId" value={shipment.bodegaId} onChange={handleChange}>
+                        <option value="">Seleccionar Bodega</option>
+                        {bodegas.map(p => (
+                            <option key={p.id} value={p.id}>
+                                {p.nombre}
+                            </option>
+                        ))}
+                    </select>
+                )}
+                <button type="submit">Solicitar envío</button>
+
+            </form>
+
+            <ConfirmationModal
+                open={openModal}
+                data={confirmationData}
+                onConfirm={()=>{handleConfirm();
+                    setOpenModal(false);
+                }}
+                onCancel={() => setOpenModal(false)}
             />
-            <input
-                name="descuento"
-                type="number"
-                placeholder="Descuento"
-                value={shipment.descuento}
-                onChange={handleChange}
-            />
-            {type === "maritimo" ? (
-                <input
-                    name="numero_flota"
-                    placeholder="Número de flota"
-                    value={shipment.numero_flota}
-                    onChange={handleChange}
-                    required
-                />
-            ) : (
-                <input
-                    name="placa"
-                    placeholder="Placa del vehículo"
-                    value={shipment.placa}
-                    onChange={handleChange}
-                    required
-                />
-            )}
-            <input
-                name="numero_guia"
-                placeholder="Número de guía"
-                value={shipment.numero_guia}
-                onChange={handleChange}
-                required
-            />
-            <button type="submit">Solicitar envío</button>
-        </form>
+        </div>
     );
 }
 

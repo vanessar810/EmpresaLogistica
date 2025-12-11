@@ -10,8 +10,8 @@ function ShipmentList({ type }) {
         try {
             const endpoint =
                 type === "maritimo"
-                    ? "http://localhost:5000/api/envios/maritimos"
-                    : "http://localhost:5000/api/envios/terrestres";
+                    ? "http://localhost:8000/api/envios/maritimos"
+                    : "http://localhost:8000/api/envios/terrestres";
             const res = await axios.get(endpoint);
             setShipments(res.data);
         } catch (err) {

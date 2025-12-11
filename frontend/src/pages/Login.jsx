@@ -3,15 +3,20 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [form, setForm] = useState({ username: "", password: "" });
+    const [form, setForm] = useState({ email: "", password: "" });
     const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await login(form.username, form.password);
+            const userData = await login(form.email, form.password);
+            console.log("User after login:", userData);
+            if(userData.hasClient){
             navigate("/dashboard");
+            } else{
+                navigate("/clientInfo");
+            }
         } catch (err) {
             alert("Credenciales incorrectas");
         }
@@ -22,9 +27,9 @@ const Login = () => {
             <h3>Inicio de sesión</h3>
             <form onSubmit={handleSubmit}>
                 <input
-                    placeholder="Usuario"
-                    value={form.username}
-                    onChange={(e) => setForm({ ...form, username: e.target.value })}
+                    placeholder="email"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
                 /><br />
                 <input
                     type="password"

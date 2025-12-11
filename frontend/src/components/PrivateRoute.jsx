@@ -4,7 +4,11 @@ import { useAuth } from "../context/AuthContext";
 
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();
-  return user ? children : <Navigate to="/login" />;
+  console.log("PrivateRoute user:", user);
+  if(!user){
+    return <Navigate to="/login"/>;}
+  if(user && !user.hasClient){  
+  return <Navigate to="/clientInfo"/>;}
+  return children;
 };
-
 export default PrivateRoute;
