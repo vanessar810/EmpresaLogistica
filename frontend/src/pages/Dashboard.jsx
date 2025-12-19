@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import ShipmentForm from "../components/ShipmentForm";
 import api from "../api";
+import ShipmentList from "../components/ShipmentList";
 
 function Dashboard() {
     const { user, getToken } = useAuth();
@@ -47,6 +48,7 @@ if(!cliente) return <div>No hay datos del cliente</div>
 
             <section>
                 <h3>Mis envios</h3>
+                <ShipmentList/>
     
             </section>
         </div>

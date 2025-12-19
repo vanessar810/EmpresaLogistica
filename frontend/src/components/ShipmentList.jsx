@@ -1,18 +1,14 @@
 // src/components/ShipmentList.js
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
-function ShipmentList({ type }) {
-    // type = "maritimo" o "terrestre"
-    const [shipments, setShipments] = useState([]);
+function ShipmentList() {
+    const [shipments, setShipments] = useState(null);
 
     const fetchShipments = async () => {
         try {
-            const endpoint =
-                type === "maritimo"
-                    ? "http://localhost:8000/api/envios/maritimos"
-                    : "http://localhost:8000/api/envios/terrestres";
-            const res = await axios.get(endpoint);
+            const res = await api.get("/envios/mis-envios");
+            console.log("envios cliente: ", res)
             setShipments(res.data);
         } catch (err) {
             console.error(err);
@@ -22,16 +18,75 @@ function ShipmentList({ type }) {
     useEffect(() => {
         fetchShipments();
     }, []);
+    if (!shipments) return <p>Cargando...</p>;
 
     return (
         <div>
-            <h4>Envíos {type === "maritimo" ? "Marítimos" : "Terrestres"}</h4>
+            <h4>Envíos</h4>
             <ul>
-                {shipments.map((s) => (
-                    <li key={s.id}>
-                        {s.tipo_producto} - Cantidad: {s.cantidad} - Precio: ${s.precio_envio}
-                    </li>
+                <h3> Envios Terrestres</h3>
+                <table className="shipment-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Fecha solicitud</th>
+                            <th>Fecha entrega</th>
+                            <th>Cantidad</th>
+                            <th>Bodega</th>
+                            <th>Placa</th>    
+                            <th>Guía</th>
+                            <th>Precio envio</th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    {shipments.terrestres.map(e => (
+                        <tr key={e.id}>
+                            <td>{e.id}</td>
+                            <td>{e.tipo_producto}</td>
+                            <td>{e.cantidad}</td>
+                            <td>{e.fecha_registro}</td>
+                            <td>{e.fecha_entrega}</td>
+                            <td>{e.bodega_entrega}</td>
+                            <td>{e.placa}</td>
+                            <td>{e.numero_guia}</td>
+                            <td>{e.precio_envio.toLocaleString()}</td>
+                        </tr>
+                        ))}
+                </tbody>
+                </table>
+                <h3> Envios Marítimos</h3>
+                <table className="shipment-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Fecha solicitud</th>
+                            <th>Fecha entrega</th>
+                            <th>Puerto</th>
+                            <th>Flota</th>    
+                            <th>Guía</th>
+                            <th>Precio envio</th>
+                        </tr>
+                    </thead>
+                <tbody>
+                {shipments.maritimos.map(e => (
+                    <tr key={e.id} className="shipment-table">
+                        <td> {e.id}</td>
+                        <td>{e.tipo_producto}</td>
+                        <td>{e.cantidad}</td>
+                        <td>{e.fecha_registro}</td>
+                        <td>{e.fecha_entrega}</td>
+                        <td>{e.puerto_entrega}</td>
+                        <td> {e.numero_flota}</td>
+                        <td>{e.numero_guia}</td>
+                        <td> {e.precio_envio}</td>
+                    </tr>
                 ))}
+                </tbody>
+                </table>
             </ul>
         </div>
     );
