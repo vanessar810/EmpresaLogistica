@@ -137,3 +137,17 @@ class EnvioService:
             "numero_guia": draft.numero_guia,
             "cliente_id": draft.cliente_id,
         }
+    
+    @staticmethod
+    def get_envios_by_cliente(db: Session, cliente_id: int):
+        envios_terrestres = (
+            db.query(EnvioTerrestre).filter(EnvioTerrestre.cliente_id == cliente_id).all()
+        )
+        envios_maritimos =(
+            db.query(EnvioMaritimo).filter(EnvioMaritimo.cliente_id == cliente_id).all()
+        )
+        
+        return {
+            "terrestres": envios_terrestres,
+            "maritimos": envios_maritimos
+        }

@@ -53,3 +53,9 @@ class ClienteService:
     def delete_cliente(db: Session, cliente_id: int):
         cliente = ClienteService.get_cliente(db, cliente_id)
         ClienteRepository.delete(db, cliente)
+
+    @staticmethod
+    def get_cliente_by_user_id(db: Session, user_id: int):
+        return(
+            db.query(Cliente).filter(Cliente.user_id == user_id).first()
+        )
