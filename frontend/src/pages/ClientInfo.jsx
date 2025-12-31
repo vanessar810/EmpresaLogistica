@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import "../styles/ClientInfo.css"
 
 const ClientInfo = () => {
     const [form, setForm] = useState({ nombre: "", telefono: "" });
@@ -27,9 +28,9 @@ const ClientInfo = () => {
     };
 
     return (
-        <div style={{ padding: 20 }}>
+        <div className="client-info">
             <h3>información personal</h3>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}  className="client-form">
                 <input
                     placeholder="Nombre"
                     value={form.nombre}

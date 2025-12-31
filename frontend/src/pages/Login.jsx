@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import "../styles/Auth.css"
 
 const Login = () => {
     const [form, setForm] = useState({ email: "", password: "" });
@@ -23,9 +24,9 @@ const Login = () => {
     };
 
     return (
-        <div style={{ padding: 20 }}>
+        <div className="auth-container">
             <h3>Inicio de sesión</h3>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="auth-form">
                 <input
                     placeholder="email"
                     value={form.email}

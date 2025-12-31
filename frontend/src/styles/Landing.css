@@ -1,0 +1,14 @@
+.landing {
+    text-align: center;
+    padding: 3rem;
+    min-height: 100vh;
+}
+
+.landing h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.landing p {
+    font-size: 1.2rem;
+}

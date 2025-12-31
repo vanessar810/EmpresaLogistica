@@ -1,7 +1,9 @@
 from pydantic import BaseModel, Field
 from datetime import date
 
+
 class EnvioTerrestreDTO(BaseModel):
+    id: int
     tipo_producto: str
     cantidad: int = Field(..., gt=0)
     fecha_registro: date
@@ -11,8 +13,17 @@ class EnvioTerrestreDTO(BaseModel):
     placa: str
     numero_guia: str
     cliente_id: int
+    precio_envio: int
+    descuento: float
+    total: float
+
+    model_config = {
+        "from_attributes": True
+    }
+
 
 class EnvioMaritimoDTO(BaseModel):
+    id: int
     tipo_producto: str
     cantidad: int = Field(..., gt=0)
     fecha_registro: date
@@ -22,6 +33,13 @@ class EnvioMaritimoDTO(BaseModel):
     numero_flota: str
     numero_guia: str
     cliente_id: int
+    precio_envio: int
+    descuento: float
+    total: float
+
+    model_config = {
+        "from_attributes": True
+    }
 
 class EnvioConfirmarReq(BaseModel):
     id: int

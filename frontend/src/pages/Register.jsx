@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { data, useNavigate } from "react-router-dom";
+import "../styles/Auth.css"
 
 const Register = () => {
 
@@ -19,9 +20,9 @@ const Register = () => {
     };
     
     return (
-        <div style={{ padding: 20 }}>
+        <div className="auth-container">
             <h3>Registro de usuario</h3>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="auth-form">
                 <input
                     placeholder="Correo"
                     value={form.email}

@@ -9,6 +9,7 @@ from app.entity.envio_preparado import EnvioPreparado
 from app.service.producto_serive import ProductService
 from app.service.bodega_service import BodegaService
 from app.service.puerto_service import PuertoService
+from app.dto.envio_dto import EnvioMaritimoDTO, EnvioTerrestreDTO
 
 class EnvioService:
     @staticmethod
@@ -23,6 +24,7 @@ class EnvioService:
             bodega_entrega = BodegaService.get_bodega(db, data["bodega_id"]).nombre,
             precio_envio = data["precio_envio"],
             descuento = data["descuento"],
+            total = data["total"],
             placa = data["placa"],
             numero_guia = data["numero_guia"],
             cliente_id = data["cliente_id"],
@@ -47,6 +49,7 @@ class EnvioService:
             puerto_entrega = PuertoService.get_puerto(db, data["puerto_id"]).nombre,
             precio_envio = data["precio_envio"],
             descuento = data["descuento"],
+            total = data["total"],
             numero_flota = data["numero_flota"],
             numero_guia = data["numero_guia"],
             cliente_id = data["cliente_id"],
@@ -132,6 +135,7 @@ class EnvioService:
             "puerto_id": draft.puerto_id,
             "precio_envio": draft.precio_envio,
             "descuento": draft.descuento,
+            "total": draft.total,
             "placa": draft.placa,
             "numero_flota": draft.numero_flota,
             "numero_guia": draft.numero_guia,
@@ -148,6 +152,6 @@ class EnvioService:
         )
         
         return {
-            "terrestres": envios_terrestres,
-            "maritimos": envios_maritimos
+            "terrestres": [EnvioTerrestreDTO.from_orm(e) for e in envios_terrestres],
+            "maritimos": [EnvioMaritimoDTO.from_orm(e) for e in envios_maritimos]
         }

@@ -1,0 +1,58 @@
+.dashboard {
+    padding: 0.5rem;
+    max-width: 1000px;
+    margin: 0.5rem auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.dashboard h2 {
+    color: #023e8a;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-forms {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.dashboard-forms section {
+    flex: 1;
+    min-width: 320px;
+    padding: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard>section:last-child {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 10px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 760px){
+    .dashboard{
+        padding: 1rem;
+    }
+    .dashboard-forms{
+        flex-direction: column;
+    }
+    .dashboard-forms section{
+        width: 100%;
+    }
+}
+.dashboard section {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard section h3 {
+    color: #a7c6ee;
+    margin-bottom: 1rem;
+}

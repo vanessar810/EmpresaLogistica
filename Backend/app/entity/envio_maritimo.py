@@ -11,6 +11,7 @@ class EnvioMaritimo(Base):
     puerto_entrega = Column(String(100))
     precio_envio = Column(Float)
     descuento = Column(Float)
+    total = Column(Float)
     numero_flota = Column(String(8), unique=True)
     numero_guia = Column(String(10), unique=True)
     cliente_id = Column(Integer, ForeignKey("clientes.id"))

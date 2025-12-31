@@ -1,0 +1,45 @@
+.client-info {
+    max-width: 500px;
+    margin: 5rem auto;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.client-info h3 {
+    color: white;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.client-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.client-form input,
+.client-form input:-webkit-autofill,
+.client-form input:-webkit-autofill:hover, 
+.client-form input:-webkit-autofill:focus,
+.client-form input:-webkit-autofill:active {
+    padding: 0.7rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: rgb(49, 89, 150) !important;
+    box-shadow: 0 0 0px 1000px rgb(49, 89, 150) inset !important;
+    -webkit-text-fill-color: white !important;
+}
+
+.client-form button {
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.client-form button:hover {
+    background-color: #023e8a;
+}

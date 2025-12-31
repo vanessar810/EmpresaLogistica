@@ -1,0 +1,56 @@
+.shipment-list {
+    margin-top: 1rem;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.shipment-list h3 {
+    margin: 1.5rem 0 0.8rem;
+    text-align: center;
+}
+
+.shipment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    
+    min-width: 100%;
+}
+
+.shipment-table th {
+    background-color: #0077b6;
+    color: white;
+    padding: 0.8rem;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.shipment-table td {
+    padding: 0.8rem;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.shipment-table tr:hover {
+    background-color: #e0f2fe;
+}
+
+@media(max-width: 768px) {
+    .shipment-list{
+        overflow-x: auto;
+    }
+    .shipment-table{
+        font-size: 0.85rem;
+    }
+    .shipment-table th,
+    .shipment-table td{
+        padding: 0.6rem;
+    }
+}
+
+.shipment-table td:last-child,
+.shipment-table th:last-child {
+    text-align: right;
+}

@@ -2,6 +2,8 @@ from pydantic import BaseModel
 from datetime import date
 class EnvioPrepararRes(BaseModel):
     id: int 
+    producto: str
+    cantidad: int
     precioEnvio: float
     precioProductos: float
     descuento : float

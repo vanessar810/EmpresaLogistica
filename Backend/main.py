@@ -14,7 +14,7 @@ Base.metadata.create_all(bind=engine)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     db = SessionLocal()
-    seed_data(db)
+    # seed_data(db) # se desactiva una vez cargada toda la información.
     db.close()
     yield
 

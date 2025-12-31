@@ -65,6 +65,8 @@ class PreparacionEnvioService:
 
             return EnvioPrepararRes(
                 id=draft.id,
+                producto = producto.nombre,
+                cantidad = draft.cantidad,
                 precioEnvio=precio_envio,
                 precioProductos=precio_producto,
                 descuento=descuento,

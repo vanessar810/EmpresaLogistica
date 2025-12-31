@@ -1,0 +1,60 @@
+.shipment-form {
+    max-width: 400px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    margin: 1rem 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.shipment-form label {
+    display: block;
+    font-weight: 100;
+    color: #618dc7;
+    margin-top: 0.8rem;
+}
+
+.shipment-form input,
+.shipment-form input:-webkit-autofill,
+.shipment-form input:-webkit-autofill:hover,
+.shipment-form input:-webkit-autofill:focus,
+.shipment-form input:-webkit-autofill:active,
+.shipment-form select {
+    width: 100%;
+    padding: 0.7rem;
+    background-color: rgb(49, 89, 150) !important;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 0.3rem;
+    -webkit-text-fill-color: white !important;
+    box-sizing: border-box;
+}
+
+.shipment-form button {
+    display: block;
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.shipment-form button:hover {
+    background-color: #023e8a;
+}
+
+@media (max-width: 480px){
+    .shipment-form input,
+    .shipment-form select{
+        font-size: 0.9rem;
+    }
+    .shipment-form buttom {
+        width: 100%;
+    };
+}

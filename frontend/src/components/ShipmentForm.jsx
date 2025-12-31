@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { getProductos, getBodegas, getPuertos } from "../dataService";
 import api from "../api";
 import ConfirmationModal from "./ConfirmationModal";
+import "../styles/ShipmentForm.css";
 
-function ShipmentForm({ type, clienteId }) {
+function ShipmentForm({ type, clienteId, onShipmentConfirmed }) {
     const [productos, setProductos] = useState([]);
     const [bodegas, setBodegas] = useState([]);
     const [puertos, setPuertos] = useState([]);
@@ -61,7 +62,6 @@ function ShipmentForm({ type, clienteId }) {
             setConfirmationData(envioPreparado.data)
             setOpenModal(true)
             console.log("Envío registrado correctamente ", envioPreparado);
-            alert("Envío registrado correctamente");
         } catch (err) {
             console.error(err);
             alert("Error al registrar envío");
@@ -74,8 +74,8 @@ function ShipmentForm({ type, clienteId }) {
             const endpoint = "/envios/confirmar";
             console.log("para confirmación del envio: ", confirmationData.id)
             const response = await api.post(endpoint, {id:confirmationData.id})
-            
             console.log("envio final: ", response)
+            onShipmentConfirmed();
         } catch (error) {
             console.error("Error confirmando envio:", error);
         }
@@ -83,7 +83,7 @@ function ShipmentForm({ type, clienteId }) {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="shipment-form">
                 <label>Producto: </label>
                 <select name="productoId" value={shipment.productoId} onChange={handleChange} required>
                     <option value="">Seleccionar producto</option>

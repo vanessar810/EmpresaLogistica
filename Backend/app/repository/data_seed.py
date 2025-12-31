@@ -2,9 +2,11 @@ from sqlalchemy.orm import Session
 from app.entity.producto import Producto
 from app.entity.puerto import Puerto
 from app.entity.bodega import Bodega
+from app.configuration.settings import settings
+print("DB URL:", settings.DATABASE_URL)
 
 def seed_data(db: Session):
-
+    print("Iniciando seed...")
     if db.query(Producto).first():
         return
     productos = [
@@ -25,7 +27,7 @@ def seed_data(db: Session):
         Puerto(nombre= "Puerto de Cartagena", ubicacion= "Colombia"),
         Puerto(nombre= "Puerto de Buenaventura", ubicacion= "Colombia")
     ]
-
+    print("Seed completado.")
     db.add_all(productos)
     db.add_all(bodegas)
     db.add_all(puertos)
