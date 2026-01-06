@@ -6,10 +6,11 @@ _pycache_/
 *.pyo
 *.pyd
 *.sqlite3
-# .env
-#.env*
+.env
+.env*
 instance/
 *.log
+ssh-key.pem
 
 # Alembic migrations cache
 migrations/versions/__pycache__/
