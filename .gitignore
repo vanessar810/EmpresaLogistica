@@ -7,7 +7,7 @@ _pycache_/
 *.pyd
 *.sqlite3
 # .env
-.env*
+#.env*
 instance/
 *.log
 
