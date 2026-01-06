@@ -11,6 +11,7 @@ _pycache_/
 instance/
 *.log
 ssh-key.pem
+Backend/.env
 
 # Alembic migrations cache
 migrations/versions/__pycache__/
