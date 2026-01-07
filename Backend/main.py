@@ -58,4 +58,6 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"detail": "Error interno del servidor. Intente más tarde."},
     )
 
-
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
