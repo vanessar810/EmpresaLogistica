@@ -8,7 +8,7 @@ function ShipmentList({ refreshKey }) {
 
     const fetchShipments = async () => {
         try {
-            const res = await api.get("/api/envios/mis-envios");
+            const res = await api.get("/envios/mis-envios");
             console.log("envios cliente: ", res)
             setShipments(res.data);
         } catch (err) {
