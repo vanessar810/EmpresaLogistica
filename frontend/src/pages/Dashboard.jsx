@@ -23,7 +23,7 @@ function Dashboard() {
                     const token = getToken();
                     //console.log(token)
                     //console.log("user id: ",user.id)
-                    const clienteData = await api.get(`/clientes/${user.id}`, {
+                    const clienteData = await api.get(`/api/clientes/${user.id}`, {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     setCliente(clienteData.data);

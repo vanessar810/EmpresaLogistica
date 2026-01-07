@@ -58,7 +58,7 @@ function ShipmentForm({ type, clienteId, onShipmentConfirmed }) {
                 cliente_id: clienteId
             };
             console.log("enviando: ", payload)
-            const envioPreparado = await api.post("/preparacion/envio", payload);
+            const envioPreparado = await api.post("/api/preparacion/envio", payload);
             setConfirmationData(envioPreparado.data)
             setOpenModal(true)
             console.log("Envío registrado correctamente ", envioPreparado);
@@ -71,7 +71,7 @@ function ShipmentForm({ type, clienteId, onShipmentConfirmed }) {
     const handleConfirm = async () => {
         try {
             
-            const endpoint = "/envios/confirmar";
+            const endpoint = "/api/envios/confirmar";
             console.log("para confirmación del envio: ", confirmationData.id)
             const response = await api.post(endpoint, {id:confirmationData.id})
             console.log("envio final: ", response)
