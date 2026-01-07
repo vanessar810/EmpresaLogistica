@@ -25,11 +25,10 @@ app = FastAPI(title="API Logística", description="API RESTful con JWT, CRUD, fi
 origins = [
     "http://localhost:3000", 
     "http://127.0.0.1:3000",
-    "http://empresa-logistica-frontend.s3-website-us-east-1.amazonaws.com", 
 ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
