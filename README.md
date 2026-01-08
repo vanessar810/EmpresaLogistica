@@ -21,6 +21,7 @@ Frontend: Vercel
 Otros: Docker (para desarrollo), Postman (para pruebas de API)
 
 Inicialmente, el proyecto se diseñó para desplegarse en AWS usando servicios como EC2, RDS y S3, pero para optimizar recursos, se hizo otra alternativa en la que el backend está en Railway y el frontend en Vercel.
+![AWS Architecture](.aws-architecture.png)
 
 🚀 Instalación y desarrollo local
 
