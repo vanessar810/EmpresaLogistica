@@ -29,21 +29,23 @@ Inicialmente, el proyecto se diseñó para desplegarse en AWS usando servicios c
 🚀 Instalación y desarrollo local
 
 1. Clona el repositorio:
-cd EmpresaLogistica
+`cd EmpresaLogistica`
 
 2. Backend:
 
-cd Backend
+`cd Backend`
+```python
 python -m venv venv
 source venv/bin/activate    # Linux / macOS
 venv\Scripts\activate       # Windows
 pip install -r requirements.txt
 uvicorn main:app --reload
-
+```
 3. Frontend:
 
-cd ../frontend
+`cd ../frontend`
+```js
 npm install
 npm start
-
+```
 swagger: https://empresalogistica-production.up.railway.app/docs
