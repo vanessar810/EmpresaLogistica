@@ -50,7 +50,7 @@ export const AuthProvider = ({children}) => {
         };
 
         const personalInformation = async (nombre, telefono) => {
-            const response = await api.post("/clientes", {
+            const response = await api.post("/clientes/", {
                 nombre,
                 telefono
             });

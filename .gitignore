@@ -12,6 +12,7 @@ instance/
 *.log
 ssh-key.pem
 Backend/.env
+DB Access env.txt
 
 # Alembic migrations cache
 migrations/versions/__pycache__/
