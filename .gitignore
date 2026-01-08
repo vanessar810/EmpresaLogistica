@@ -16,6 +16,7 @@ AWS.drawio
 DB Access env.txt
 AWS.drawio
 logistics_db.sql
+aws-architecture_0.png
 
 # Alembic migrations cache
 migrations/versions/__pycache__/
