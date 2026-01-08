@@ -26,6 +26,7 @@ origins = [
     "http://localhost:3000", 
     "http://127.0.0.1:3000",
     "https://empresalogistica.vercel.app",
+    "https://empresalogistica.vercel.app/",
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -33,6 +34,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 # Routers
