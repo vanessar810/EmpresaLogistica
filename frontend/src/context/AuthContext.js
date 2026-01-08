@@ -49,16 +49,12 @@ export const AuthProvider = ({children}) => {
             return userData;
         };
 
-        const personalInformation = async (nombre, telefono, token) => {
+        const personalInformation = async (nombre, telefono) => {
             const response = await api.post("/clientes", {
                 nombre,
                 telefono
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
             });
-            console.log(token)
+            
             const data = response.data
             const userData = {
                 id: data.id,    

@@ -17,8 +17,8 @@ const ClientInfo = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const token = getToken();
-            const data = await personalInformation(form.nombre, form.telefono, token);
+    
+            const data = await personalInformation(form.nombre, form.telefono);
             console.log("Cliente creado exitosamente");
         // updateUser({ ...user, hasClient: true });
             navigate("/dashboard", { replace: true });
