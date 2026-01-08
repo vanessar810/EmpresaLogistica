@@ -9,21 +9,28 @@ class ClienteService:
     @staticmethod
     def create_cliente(db: Session, user_id: int, nombre: str, telefono: str):
         try:
+            print(f"🔍 Intentando crear cliente para user_id: {user_id}")
             existing = db.query(Cliente).filter_by(user_id=user_id).first()
             if existing:
+                print(f"❌ Cliente ya existe para user_id: {user_id}") 
                 raise user_already_exists
 
             user = db.query(User).filter_by(id=user_id).first()
             if not user:
+                    print(f"❌ Usuario no encontrado con id: {user_id}")
                     raise cliente_not_found
     
+            print(f"✅ Usuario encontrado: {user.email}")
             cliente = Cliente(nombre=nombre, telefono=telefono, user_id=user_id, email=user.email)
-            return ClienteRepository.create(db, cliente)
+            result = ClienteRepository.create(db, cliente)
+            print(f"✅ Cliente creado exitosamente: {result.id}") 
+            return result
 
         except HTTPException as e:
+            print(f"❌ HTTPException: {e.detail}")
             raise e
         except Exception as e:
-            print(f"Error al crear cliente: {e}")
+            print(f"❌ Error al crear cliente: {e}")
             raise internal_server_error("No se pudo crear el cliente.")
 
     @staticmethod

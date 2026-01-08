@@ -27,7 +27,7 @@ class AuthService:
             access_token = create_access_token(data={"sub": user.email})
             has_client = bool(user.cliente)
             return Token(access_token=access_token, hasClient=has_client,
-                role=user.role)
+                role=user.role, id=user.id)
 
         except HTTPException:
             raise
