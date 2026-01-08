@@ -23,8 +23,6 @@ app = FastAPI(title="API Logística", description="API RESTful con JWT, CRUD, fi
 
 # CORS 
 origins = [
-    "http://localhost:3000", 
-    "http://127.0.0.1:3000",
     "https://empresalogistica.vercel.app",
     "https://empresalogistica.vercel.app/",
 ]
