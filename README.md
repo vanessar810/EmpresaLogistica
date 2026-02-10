@@ -1,34 +1,35 @@
 Empresa Logística
 
-Empresa Logística es una aplicación web para la gestión de envíos, productos, bodegas y puertos. Permite crear órdenes de envío, consultar historial, con autenticación basada en JWT y roles.
+Empresa Logística is a web application to manage shipments. Allows create new shipment orders, view history. Authentication is based in JWT and role separation.
 
-📦 Tecnologías
+📦 Technologies:
 
 Frontend: React, Axios, HTML y CSS
 
 Backend: Python, FastAPI, SQLAlchemy, Pydantic
 
-Base de datos: MySQL (desplegada en Railway)
+Base de datos: MySQL (deployment in Railway)
 
-Autenticación: JWT (JSON Web Tokens)
+Authentication: JWT (JSON Web Tokens)
 
-Despliegue:
+Deployment:
 
 Backend: Railway
 
 Frontend: Vercel
 
-Otros: Docker (para desarrollo), Postman (para pruebas de API)
 
-Inicialmente, el proyecto se diseñó para desplegarse en AWS usando servicios como EC2, RDS y S3, pero para optimizar recursos, se hizo otra alternativa en la que el backend está en Railway y el frontend en Vercel.
+Others: Docker (development), Postman (API testing)
+
+Initially , the project was designed to deploy it in AWS using services such as EC2, RDS y S3, in order to optimize resources, another alternative was made, backend is in Railway and frontend in Vercel.
 
 
 ![AWS Architecture](./aws-architecture.png)
 
 
-🚀 Instalación y desarrollo local
+🚀 Installation and local deployment
 
-1. Clona el repositorio:
+1. Clone the repository
 `cd EmpresaLogistica`
 
 2. Backend:
